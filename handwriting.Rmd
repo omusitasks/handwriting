@@ -1,0 +1,116 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+```{r}
+# set working environment
+setwd("C:/Users/ben/Downloads")
+```
+
+
+```{r}
+#Load the required packages 
+library(dplyr) 
+library(ggplot2)
+
+#Load the titanic dataset
+data <- read.csv("handwriting.csv")
+
+#View the dataset 
+head(data)
+```
+
+
+```{r}
+data$gender <- ifelse(data$gender == "male", 1, 0)
+
+#View the dataset 
+head(data)
+```
+
+# Exploratory Data Analysis
+```{r}
+# Generate a plot to visualize the relationship between gender and size
+ggplot(data=data, aes(x=gender, y=size)) +
+  geom_boxplot(fill="darkblue") +
+  geom_jitter(color="black", size=1.5) +
+  ggtitle("Size vs Gender")
+```
+
+
+```{r}
+# Generate a plot to visualize the relationship between gender and lines
+ggplot(data=data, aes(x=gender, y=lines)) +
+  geom_boxplot(fill="brown") +
+  geom_jitter(color="black", size=1.5) +
+  ggtitle("Lines vs Gender")
+```
+
+
+
+
+```{r}
+
+#Model 1
+model1 <- lm(gender ~ size + shape + lines + speed + consistency + corrections, data = data)
+summary(model1)
+```
+
+
+```{r}
+#Model2
+model2 <- lm(gender ~ size + lines + speed + consistency + corrections, data = data)
+summary(model2)
+
+```
+
+
+```{r}
+ggplot(data, aes(x = size, y = speed)) +
+  geom_point()
+```
+
+
+
+```{r}
+# Analyze the data
+size <- t.test(data$size ~ data$gender)
+lines <- t.test(data$lines ~ data$gender)
+speed <- t.test(data$speed ~ data$gender)
+consistency <- t.test(data$consistency ~ data$gender)
+corrections <- t.test(data$corrections ~ data$gender)
+
+# Print the results 
+print(size)
+```
+
+```{r}
+
+# Print the results 
+print(lines)
+```
+
+
+```{r}
+
+# Print the results 
+print(speed)
+```
+
+```{r}
+# Print the results 
+print(consistency)
+
+```
+
+```{r}
+
+# Print the results 
+print(corrections)
+
+```
+
+
+
